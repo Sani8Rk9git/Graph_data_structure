@@ -24,6 +24,8 @@
     - Max heap and min heap is used by default to implement the priority queue
     - Highest priority element will be first (element with large value)
 
+- we use the priority queue Because the shortest available distance is always processed first, we ensure that a node's neighbors are only relaxed using the most optimal path possible. Once a node is popped, it never needs to be processed again.
+
 ```
 class WeightedDirected(Graph):
     def __init__(self, vertices):
@@ -55,7 +57,10 @@ class WeightedDirected(Graph):
 
         queue.insert(0,source)
         while queue:
-            u = queue.delete()[1]
+            dist, u = queue.delete()
+            if distance[u] < dist:
+                continue
+
             for v in self.graph[u]:
                 if distance[v[0]] > distance[u] + v[1]:
                     distance[v[0]] = distance[u] + v[1]
